@@ -1,5 +1,5 @@
 <template>
-  <b-navbar class="is-dark" :fixed-top="false">
+  <b-navbar class="is-dark" :fixed-top="true">
     <template #brand>
       <b-navbar-item href="https://www.shedloadofcode.com">
         <img

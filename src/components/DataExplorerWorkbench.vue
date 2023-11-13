@@ -4,7 +4,7 @@
       <article>
         <div class="dx">
           <h1
-            class="is-size-2-desktop is-size-3-mobile is-bold mb-5 mt-5 has-text-left"
+            class="is-size-2-desktop is-size-3-mobile is-bold mb-5 has-text-left"
           >
             Data Explorer Workbench
           </h1>
@@ -1574,7 +1574,7 @@ article h3,
 article h4,
 article h5,
 article h6 {
-  margin: 20px 0 10px;
+  margin: 30px 0 10px;
   color: rgb(74, 74, 74);
   padding: 20px 0 0;
   font-weight: 700;
