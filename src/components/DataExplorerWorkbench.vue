@@ -1,32 +1,29 @@
 <template>
-  <div class="hello">
-    <h1>test</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <div class="columns is-centered">
+    <div class="column is-two-thirds">
+      <article class="dx">
+        <h1 class="is-size-2-desktop is-size-3-mobile is-bold mb-5">
+          Data Explorer Workbench
+        </h1>
+        <b-message title="Public beta">
+            This <a href="https://en.wikipedia.org/wiki/Exploratory_data_analysis" rel="nofollow noopener noreferrer" target="_blank">EDA</a> tool is 
+            in <strong>public beta</strong> and is free to test on any 
+            <a href="https://github.com/MainakRepositor/Datasets" rel="nofollow noopener noreferrer" target="_blank">datasets</a>. 
+            When the beta closes it will require a one time purchase to access. 
+            You can find out more about the tool in 
+            the <a href="https://shedloadofcode.com/store" class="">Store</a> or watch the 
+            <a href="https://www.youtube.com/watch?v=fev2rpGxh-U" rel="nofollow noopener noreferrer" target="_blank">tutorial video</a>.
+        </b-message>
+        <b-message title="Privacy and data disclaimer" 
+          id="privacy-message-box" 
+          activearia-close-label="Close message">
+          No data from your CSV is transmitted to 
+          our server or anywhere else. All of the data stays on your computer and all of the 
+          calculations are made within your browser using JavaScript. Datasets over 20,000 rows 
+          will slow down the calculations and may cause the tool to stop working.
+        </b-message>
+      </article>
+    </div>
   </div>
 </template>
 
@@ -40,19 +37,45 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
+<style lang="scss">
+body, button, input, optgroup, select, textarea {
+    font-family: BlinkMacSystemFont,-apple-system,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+
+article {
+  margin-top: 20px;
+
+  p {
+    font-size: 20px;
+  }
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+
+article figcaption>a, article p>a {
+    color: #4a4a4a;
+    text-decoration: underline;
+    font-weight: 600;
 }
-a {
-  color: #42b983;
+
+article h1, article h2, article h3, article h4, article h5, article h6 {
+  margin: 20px 0 10px;
+  color: rgb(74, 74, 74);
+  padding: 20px 0 0;
+  font-weight: 700;
+  -webkit-font-smoothing: antialiased;
+  cursor: text;
+  position: relative;
+}
+
+article figcaption>a:hover, article p>a:hover {
+    text-decoration: none;
+}
+
+a:hover {
+    color: #363636;
+}
+
+article figcaption>a:active, article figcaption>a:focus, article p>a:active, article p>a:focus {
+    border-bottom: 2px solid #4a4a4a;
+    text-decoration: none;
 }
 </style>
