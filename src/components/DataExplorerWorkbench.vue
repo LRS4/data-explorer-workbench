@@ -1653,9 +1653,9 @@ article .dx li a {
 }
 
 .tabs li.is-active a {
-    border-bottom-color: #373737;
-    color: #373737;
-    border-bottom: 5px solid #373737;
+    border-bottom-color: #373737 !important;
+    color: #373737 !important;
+    border-bottom: 5px solid #373737 !important;
 }
 
 .tabs li a:hover {
@@ -1707,8 +1707,13 @@ article .dx-card-content {
 }
 
 .button.is-info {
-    background-color: #3e8ed0;
+    background-color: #3e8ed0 !important;
     border-color: transparent;
     color: #fff;
+}
+
+.dropdown .dropdown-menu .has-link a.is-active, a.dropdown-item.is-active, button.dropdown-item.is-active {
+  background-color: #485fc7 !important;
+  color: #fff;
 }
 </style>
