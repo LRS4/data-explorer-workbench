@@ -4,9 +4,9 @@
       <article>
         <div class="dx">
           <h1
-            class="is-size-2-desktop is-size-3-mobile is-bold mb-5 has-text-left"
+            class="is-size-3-desktop is-size-3-mobile is-bold mb-5 has-text-left"
           >
-            Data Explorer Workbench
+            DataCabin 🏡
           </h1>
           <p class="has-text-left">
             Perform fast lightweight automated exploratory data analysis on your CSV datasets.
@@ -15,42 +15,17 @@
                   rel="nofollow noopener noreferrer"
                   target="_blank"
                   >tutorial video</a>.
+                  <b-tooltip 
+                    label="No data from your CSV is sent to a server or anywhere else. All
+                      the data stays on your computer and the calculations are made
+                      within your browser using JavaScript. Datasets over 20,000 rows
+                      will slow down the tool considerably." 
+                    multilined 
+                    dashed
+                    type="is-light">
+                      Privacy focused.
+                  </b-tooltip>
           </p>
-          <div class="columns is-centered">
-            <div class="column is-one-half">
-              <b-message title="Public beta notice">
-                This
-                <a
-                  href="https://en.wikipedia.org/wiki/Exploratory_data_analysis"
-                  rel="nofollow noopener noreferrer"
-                  target="_blank"
-                  >EDA</a
-                >
-                tool is in <strong>public beta</strong> and is free to test on
-                any
-                <a
-                  href="https://github.com/MainakRepositor/Datasets"
-                  rel="nofollow noopener noreferrer"
-                  target="_blank"
-                  >datasets</a
-                >. When the beta closes it will require a one time purchase to
-                access. You can find out more about the tool in the
-                <a href="https://shedloadofcode.com/store" class="">Store</a>.
-              </b-message>
-            </div>
-            <div class="column is-one-half">
-              <b-message
-                title="Privacy and data disclaimer"
-                id="privacy-message-box"
-                activearia-close-label="Close message"
-              >
-                No data from your CSV is sent to a server or anywhere else. All
-                the data stays on your computer and the calculations are made
-                within your browser using JavaScript. Datasets over 20,000 rows
-                will slow down the tool considerably.
-              </b-message>
-            </div>
-          </div>
           <div class="columns">
             <div id="main-column" class="column is-full">
               <b-field v-if="dropFiles.length == 0">
@@ -89,11 +64,25 @@
                           />
                         </svg>
                       </p>
-                      <p>Drop your CSV here or click to upload</p>
+                      <p>Drop your CSV dataset here or click to upload</p>
                     </div>
                   </section>
                 </b-upload>
               </b-field>
+              <b-button 
+                v-if="dropFiles.length == 0"
+                type="is-text" 
+                @click="fetchTitanicData()">
+                To get started even quicker, you can auto-load the Titanic dataset
+              </b-button>.
+              <p class="is-size-6" v-if="dropFiles.length == 0">
+                ... or find some 
+                <a href="https://github.com/MainakRepositor/Datasets/tree/master" 
+                  target="_blank"
+                  rel="nofollow noopener noreferrer"
+                  style="font-weight: 100"
+                  >public datasets</a> to use
+              </p>
               <div class="tags is-centered" v-if="dropFiles.length != 0">
                 <span class="tag is-small is-secondary">
                   {{ dropFiles.name }}
@@ -210,35 +199,37 @@
                     </div>
                   </div>
                 </b-tab-item>
-                <b-tab-item label="Sample">
-                  <client-only>
-                    <table v-if="dataInfo.columns.length > 0" class="table">
-                      <thead>
-                        <tr>
-                          <th
-                            v-for="column in dataInfo.columns"
-                            :key="column.id"
+                <div style="overflow-x: auto; width: 100%;">
+                  <b-tab-item label="Sample">
+                    <client-only>
+                      <table v-if="dataInfo.columns.length > 0" class="table">
+                        <thead>
+                          <tr>
+                            <th
+                              v-for="column in dataInfo.columns"
+                              :key="column.id"
+                            >
+                              {{ column }}
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr
+                            v-for="row in df.head(20).fillNa('').$data"
+                            :key="row.id"
                           >
-                            {{ column }}
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr
-                          v-for="row in df.head(15).fillNa('').$data"
-                          :key="row.id"
-                        >
-                          <td
-                            v-for="(value, i) in row"
-                            v-bind:key="'rowValue' + i"
-                          >
-                            {{ value }}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </client-only>
-                </b-tab-item>
+                            <td
+                              v-for="(value, i) in row"
+                              v-bind:key="'rowValue' + i"
+                            >
+                              {{ value }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </client-only>
+                  </b-tab-item>
+                </div>
                 <b-tab-item label="Variables">
                   <div v-show="variablePlotsInitialised">
                     <div
@@ -750,6 +741,7 @@
 
 import * as dfd from "danfojs";
 import Plotly from "plotly.js-dist-min";
+import axios from "axios";
 
 export default {
   data() {
@@ -787,6 +779,26 @@ export default {
     };
   },
   methods: {
+    fetchTitanicData() {
+      const url = 'https://raw.githubusercontent.com/MainakRepositor/Datasets/master/Titanic.csv';
+
+      this.isLoading = true;
+      axios.get(url)
+        .then(response => {
+          console.log("response", response);
+          const blob = new Blob([response.data], { type: 'text/csv' });
+          const file = new File([blob], "Titanic.csv", { type: "text/csv" });
+          console.log("file", file);
+
+          this.dropFiles = file;
+        })
+        .catch(error => {
+          console.error('Error fetching Titanic dataset:', error);
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
     deleteDropFile() {
       this.dropFiles = [];
       this.variablePlotsInitialised = false;
@@ -1339,7 +1351,9 @@ export default {
     },
     getChartLayout(title) {
       return {
-        width: 500,
+        autosize: true,
+        responsive: true,
+        width: 450,
         yaxis: {
           title: title,
         },
@@ -1361,6 +1375,12 @@ export default {
 
       return result;
     },
+    /**
+     * Chunks an array into sub-arrays of a given size.
+     * @param {Array} array The array to chunk.
+     * @param {number} size The size of each chunk.
+     * @returns {Array} An array of chunks.
+     */
     chunk(array, size) {
       let result = [];
       let count = 0;
@@ -1420,6 +1440,9 @@ export default {
         return;
       }
 
+      console.log("this.dropFiles", this.dropFiles);
+      console.log("this.dropFiles[0]", this.dropFiles[0])
+
       const reader = new FileReader();
 
       reader.readAsText(this.dropFiles);
@@ -1427,6 +1450,8 @@ export default {
       reader.onload = () => {
         this.rawCSVData = reader.result; // contains the file content as a string
       };
+
+      console.log("this.rawCSVData", this.rawCSVData);
 
       reader.onerror = () => {
         console.log(reader.error);
