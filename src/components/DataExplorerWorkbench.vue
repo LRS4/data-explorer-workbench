@@ -189,10 +189,10 @@
                               <td width="100%" v-html="warning"></td>
                             </tr>
                             <!-- <tr>
-                                        <td>
-                                            Survived has 549 (61.62%) zeros
-                                        </td>
-                                    </tr> -->
+                                <td>
+                                    Survived has 549 (61.62%) zeros
+                                </td>
+                            </tr> -->
                           </tbody>
                         </table>
                       </client-only>
@@ -237,7 +237,7 @@
                       v-for="column in chunk(dataInfo.columns, 2)"
                       :key="column.index"
                     >
-                      <div class="column">
+                      <div class="column is-half">
                         <div class="card">
                           <div class="card-image">
                             <div
@@ -369,7 +369,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="column" v-if="column.length > 1">
+                      <div class="column is-half" v-if="column.length > 1">
                         <div class="card">
                           <div class="card-image">
                             <div
@@ -1350,10 +1350,12 @@ export default {
       }
     },
     getChartLayout(title) {
+      let section = document.getElementsByClassName("tab-content")
+      let sectionWidth = section[0].offsetWidth;
+      let plotWidth = (sectionWidth / 2) - 30;
+
       return {
-        autosize: true,
-        responsive: true,
-        width: 450,
+        width: plotWidth,
         yaxis: {
           title: title,
         },
